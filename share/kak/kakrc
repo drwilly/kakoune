@@ -6,7 +6,7 @@ def -params 1 -docstring "colorscheme <name>: enable named colorscheme" \
   colorscheme %{ evaluate-commands %sh{
     filename=$(find -L "${kak_config}/colors" "${kak_runtime}/colors" -type f -name "${1}".kak | head -n 1)
     if [ -n "${filename}" ]; then
-        printf 'source %%{%s}' "${filename}"
+        printf 'source %%{%s}\n' "${filename}"
     else
         echo "fail 'No such colorscheme'"
     fi
