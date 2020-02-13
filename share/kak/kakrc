@@ -4,18 +4,7 @@ def -params 1 -docstring "colorscheme <name>: enable named colorscheme" \
         -exec sh -c 'for f; do f="${f##*/}"; printf %s\\n "${f%.*}"; done | sort -u' argv0 {} +
   } \
   colorscheme %{ evaluate-commands %sh{
-    find_colorscheme() {
-        find -L "${1}" -type f -name "${2}".kak | head -n 1
-    }
-
-    filename=""
-    if [ -d "${kak_config}/colors" ]; then
-        filename=$(find_colorscheme "${kak_config}/colors" "${1}")
-    fi
-    if [ -z "${filename}" ]; then
-        filename=$(find_colorscheme "${kak_runtime}/colors" "${1}")
-    fi
-
+    filename=$(find -L "${kak_config}/colors" "${kak_runtime}/colors" -type f -name "${1}".kak | head -n 1)
     if [ -n "${filename}" ]; then
         printf 'source %%{%s}' "${filename}"
     else
